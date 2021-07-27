@@ -86,6 +86,7 @@ function getCss(theme: string, fontSize: string) {
         color: #BBB;
         font-family: Times New Roman, Verdana;
         font-size: 100px;
+        padding: 0px 24px;
     }
 
     .spacer {
@@ -152,12 +153,22 @@ export function getHtml(parsedReq: ParsedRequest) {
     <body>
         <div>
             <div class="spacer">
-            ${images
-              .map(
-                (img, i) =>
-                  getPlusSign(i) + getImage(img, widths[i], heights[i])
-              )
-              .join("")}
+            ${
+              images.length > 0
+                ? `<div class="flex-center">
+        
+                ${images
+                  .map(
+                    (img, i) =>
+                      getPlusSign(i) + getImage(img, widths[i], heights[i])
+                  )
+                  .join("")}
+    
+                </div>
+                `
+                : ""
+            }
+         
             <div class="heading">${emojify(
               md ? marked(text) : sanitizeHtml(text)
             )}
@@ -168,18 +179,14 @@ export function getHtml(parsedReq: ParsedRequest) {
 }
 
 function getImage(src: string, width = "auto", height = "300") {
-  return ` 
-    <div class="flex-center">
-        <div class="flex-center circular--portrait">
-            <img
+  return `<div class="flex-center circular--portrait"><img
                 class="logo"
                 alt="Generated Image"
                 src="${sanitizeHtml(src)}"
                 width="${sanitizeHtml(width)}"
                 height="${sanitizeHtml(height)}"
-            />
-        </div>
-    </div>`;
+            />           
+        </div>`;
 }
 
 function getPlusSign(i: number) {
