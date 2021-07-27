@@ -1,39 +1,44 @@
-
-import { readFileSync } from 'fs';
-import marked from 'marked';
-import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
-const twemoji = require('twemoji');
-const twOptions = { folder: 'svg', ext: '.svg' };
+import { readFileSync } from "fs";
+import marked from "marked";
+import { sanitizeHtml } from "./sanitizer";
+import { ParsedRequest } from "./types";
+const twemoji = require("twemoji");
+const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+const rglr = readFileSync(
+  `${__dirname}/../_fonts/PublicSans-Regular.ttf`
+).toString("base64");
+const bold = readFileSync(
+  `${__dirname}/../_fonts/PublicSans-Bold.ttf`
+).toString("base64");
+const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString(
+  "base64"
+);
 
 function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
+  let background = "white";
+  let foreground = "black";
+  let radial = "lightgray";
 
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
-    return `
+  if (theme === "dark") {
+    background = "black";
+    foreground = "white";
+    radial = "dimgray";
+  }
+  return `
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Public Sans';
         font-style:  normal;
         font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
+        src: url(data:font/tff;charset=utf-8;base64,${rglr}) format("tff");
     }
 
     @font-face {
-        font-family: 'Inter';
+        font-family: 'Public Sans';
         font-style:  normal;
         font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
+        src: url(data:font/tff;charset=utf-8;base64,${bold}) format("tff");
     }
 
     @font-face {
@@ -65,7 +70,7 @@ function getCss(theme: string, fontSize: string) {
         content: '\`';
     }
 
-    .logo-wrapper {
+    .flex-center {
         display: flex;
         align-items: center;
         align-content: center;
@@ -95,17 +100,48 @@ function getCss(theme: string, fontSize: string) {
     }
     
     .heading {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Public Sans', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
-    }`;
+    }
+    
+    .circular--portrait {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 4px solid #000;
+      }
+      
+    .circular--portrait img {
+        width: 100%;
+        height: auto;
+    }
+
+    .heading p {
+        font-size: 1em !important;
+        max-width: 40ch;
+        text-align: center;
+    }
+    .heading h1 {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .heading h1 span {
+        display: block;
+        font-size: 20px !important;
+        font-weight: normal;
+        margin-top: 4px;
+    }
+    `;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
-    return `<!DOCTYPE html>
+  const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+  return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
@@ -116,14 +152,14 @@ export function getHtml(parsedReq: ParsedRequest) {
     <body>
         <div>
             <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
-            </div>
-            <div class="spacer">
+            ${images
+              .map(
+                (img, i) =>
+                  getPlusSign(i) + getImage(img, widths[i], heights[i])
+              )
+              .join("")}
             <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
+              md ? marked(text) : sanitizeHtml(text)
             )}
             </div>
         </div>
@@ -131,16 +167,21 @@ export function getHtml(parsedReq: ParsedRequest) {
 </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
+function getImage(src: string, width = "auto", height = "300") {
+  return ` 
+    <div class="flex-center">
+        <div class="flex-center circular--portrait">
+            <img
+                class="logo"
+                alt="Generated Image"
+                src="${sanitizeHtml(src)}"
+                width="${sanitizeHtml(width)}"
+                height="${sanitizeHtml(height)}"
+            />
+        </div>
+    </div>`;
 }
 
 function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
+  return i === 0 ? "" : '<div class="plus">+</div>';
 }
