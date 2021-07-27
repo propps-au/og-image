@@ -158,7 +158,7 @@ export function getHtml(parsedReq: ParsedRequest) {
         <div>
             <div class="spacer">
             ${
-              images.length > 0
+              images.length < 0
                 ? `<div class="flex-center">
         
                 ${images
