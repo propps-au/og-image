@@ -127,6 +127,7 @@ function getCss(theme: string, fontSize: string) {
         text-align: center;
     }
     .heading h1 {
+        font-family: 'Public Sans';
         text-align: center;
         margin-bottom: 32px;
         line-height: 1.5;
