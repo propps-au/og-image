@@ -31,14 +31,14 @@ function getCss(theme: string, fontSize: string) {
         font-family: 'Public Sans';
         font-style:  normal;
         font-weight: normal;
-        src: url(data:font/tff;charset=utf-8;base64,${rglr}) format("tff");
+        src: url(data:font/tff;charset=utf-8;base64,${rglr}) format("truetype");
     }
 
     @font-face {
         font-family: 'Public Sans';
         font-style:  normal;
         font-weight: bold;
-        src: url(data:font/tff;charset=utf-8;base64,${bold}) format("tff");
+        src: url(data:font/tff;charset=utf-8;base64,${bold}) format("truetype");
     }
 
     @font-face {
