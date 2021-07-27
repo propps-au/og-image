@@ -113,7 +113,7 @@ function getCss(theme: string, fontSize: string) {
         height: 300px;
         overflow: hidden;
         border-radius: 50%;
-        border: 4px solid #000;
+        border: 6px solid #000;
       }
       
     .circular--portrait img {
