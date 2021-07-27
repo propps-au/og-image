@@ -28,25 +28,13 @@ function getCss(theme: string, fontSize: string) {
   }
   return `
     @font-face {
-        font-family: 'Public Sans';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/tff;charset=utf-8;base64,${rglr}) format("tff");
-    }
-
-    @font-face {
-        font-family: 'Public Sans';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/tff;charset=utf-8;base64,${bold}) format("tff");
-    }
-
-    @font-face {
         font-family: 'Vera';
         font-style: normal;
         font-weight: normal;
         src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
       }
+
+    @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
 
     body {
         background: ${background};
