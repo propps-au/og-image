@@ -122,18 +122,19 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .heading p {
-        font-size: 1em !important;
+        font-size: 1em;
         max-width: 40ch;
         text-align: center;
     }
     .heading h1 {
         text-align: center;
         margin-bottom: 32px;
+        line-height: 1.5;
     }
 
     .heading h1 span {
         display: block;
-        font-size: 20px !important;
+        font-size: 0.8em;
         font-weight: normal;
         margin-top: 4px;
     }
